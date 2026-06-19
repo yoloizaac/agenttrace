@@ -26,20 +26,27 @@ export function getArray(obj: Json, key: string): unknown[] | undefined {
 }
 
 const MAX_CONTENT = 20_000;
+/** Recursion guard so a maliciously deep `content` tree cannot blow the stack. */
+const MAX_DEPTH = 24;
 
 /**
  * Flatten an arbitrary `content` value (string, array of blocks, or object)
  * into plain text. Never returns "[object Object]"; unknown shapes are
- * JSON-stringified and truncated. Output is always safe to render as text.
+ * JSON-stringified and truncated. Bounded recursion depth. Output is always
+ * safe to render as text.
  */
-export function flattenContent(value: unknown): string {
+export function flattenContent(value: unknown, depth = 0): string {
+  if (depth > MAX_DEPTH) return '[deeply nested content omitted]';
   let out: string;
   if (typeof value === 'string') {
     out = value;
   } else if (Array.isArray(value)) {
-    out = value.map((block) => flattenBlock(block)).filter(Boolean).join('\n');
+    out = value
+      .map((block) => flattenBlock(block, depth + 1))
+      .filter(Boolean)
+      .join('\n');
   } else if (isObject(value)) {
-    out = flattenBlock(value);
+    out = flattenBlock(value, depth + 1);
   } else if (value == null) {
     out = '';
   } else {
@@ -48,14 +55,18 @@ export function flattenContent(value: unknown): string {
   return truncate(out, MAX_CONTENT);
 }
 
-function flattenBlock(block: unknown): string {
+function flattenBlock(block: unknown, depth: number): string {
+  if (depth > MAX_DEPTH) return '[deeply nested content omitted]';
   if (typeof block === 'string') return block;
   if (!isObject(block)) return block == null ? '' : String(block);
   // Common text-bearing blocks across Claude Code and generic logs.
   const text = pickString(block, ['text', 'content', 'message', 'value']);
   if (typeof block.content === 'string') return block.content;
   if (Array.isArray(block.content)) {
-    return block.content.map((b) => flattenBlock(b)).filter(Boolean).join('\n');
+    return block.content
+      .map((b) => flattenBlock(b, depth + 1))
+      .filter(Boolean)
+      .join('\n');
   }
   if (text) return text;
   const type = pickString(block, ['type']);

@@ -121,6 +121,12 @@ button:disabled {
   outline: 3px solid var(--accent);
   outline-offset: 2px;
 }
+/* The real file input is visually hidden, so surface its keyboard focus on the label. */
+.filelabel:focus-within {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-color: var(--accent);
+}
 .filelabel input {
   position: absolute;
   width: 1px;
@@ -256,6 +262,17 @@ th.num {
   flex-direction: column;
   gap: 12px;
   margin-bottom: 16px;
+}
+.filter-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.filter-caption {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-dim);
 }
 .chips {
   display: flex;

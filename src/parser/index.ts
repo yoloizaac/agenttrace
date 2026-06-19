@@ -58,8 +58,34 @@ export function parseText(
     const split = splitRecords(text, format);
     warnings.push(...split.warnings);
 
+    // Normalize each record in isolation: a record that somehow throws becomes
+    // a single `unknown` event plus a warning, so one bad record can never wipe
+    // its siblings (the same isolation split.ts already gives per JSON line).
     const events = classifyAll(
-      split.records.flatMap((record, i) => normalizeRecord(record, i)),
+      split.records.flatMap((record, i) => {
+        try {
+          return normalizeRecord(record, i);
+        } catch (err) {
+          warnings.push({
+            message: `Record ${i + 1} could not be normalized (${
+              err instanceof Error ? err.message : String(err)
+            }); it was preserved as an unknown event.`,
+            severity: 'warning',
+          });
+          return [
+            {
+              id: `rec-err-${i}`,
+              category: 'unknown' as const,
+              role: 'unknown' as const,
+              title: 'Unparsed record',
+              content: '',
+              status: 'unknown' as const,
+              rawType: 'normalize-error',
+              rawData: record,
+            },
+          ];
+        }
+      }),
     );
 
     // Honest signal: structured input that produced only `unknown` events is

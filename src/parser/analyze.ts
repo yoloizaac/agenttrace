@@ -10,6 +10,15 @@ import { firstToken, isObject } from './util';
 /** How many later tool calls to scan when looking for a retry after a failure. */
 const RETRY_WINDOW = 5;
 
+/** Categories that represent the agent invoking a tool (any source format). */
+const TOOL_INVOCATION: ReadonlySet<AgentEvent['category']> = new Set([
+  'tool_call',
+  'command',
+  'file_operation',
+  'verification',
+  'plan',
+]);
+
 /**
  * Pure reductions over the normalized events. Produces the numbers and lists
  * the UI and the Markdown report display. No heuristic here is presented as
@@ -78,7 +87,7 @@ function countEvents(events: AgentEvent[]): OverviewCounts {
     userPrompts: events.filter((e) => e.category === 'user_prompt').length,
     assistantMessages: events.filter((e) => e.category === 'assistant_message')
       .length,
-    toolCalls: events.filter((e) => e.rawType === 'tool_use').length,
+    toolCalls: events.filter((e) => TOOL_INVOCATION.has(e.category)).length,
     failures: events.filter((e) => e.status === 'error').length,
     verifications: events.filter((e) => e.category === 'verification').length,
     files: distinctFiles(events).length,

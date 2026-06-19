@@ -1,4 +1,4 @@
-import type { AgentEvent, ParseResult } from '../domain/event';
+﻿import type { AgentEvent, ParseResult } from '../domain/event';
 import type { SessionAnalysis } from '../domain/analysis';
 
 /**
@@ -112,7 +112,7 @@ export function buildMarkdown(
     lines.push(`- ${ts}[${e.category}] ${cell(e.title)}: ${snippet(e.content)}`);
   }
   if (result.events.length > highlights.length) {
-    lines.push(`- … and ${result.events.length - highlights.length} more events.`);
+    lines.push(`- â€¦ and ${result.events.length - highlights.length} more events.`);
   }
   lines.push('');
 
@@ -128,15 +128,23 @@ export function buildMarkdown(
   return lines.join('\n');
 }
 
-/** Make a value safe for a Markdown table cell / single line. */
+/**
+ * Make a value safe for a Markdown table cell / single line, and defang link
+ * syntax so untrusted content cannot become a clickable `javascript:` link in
+ * whatever viewer opens the exported report.
+ */
 function cell(s: string): string {
-  return s.replace(/\r?\n/g, ' ').replace(/\|/g, '\\|').trim();
+  return s
+    .replace(/\r?\n/g, ' ')
+    .replace(/\|/g, '\\|')
+    .replace(/\]\(/g, '] (') // break [text](url) link syntax
+    .trim();
 }
 
 function snippet(content: string, max = 160): string {
   const flat = content.replace(/\r?\n/g, ' ').trim();
   if (flat.length === 0) return '(no content)';
-  return flat.length <= max ? cell(flat) : cell(flat.slice(0, max)) + '…';
+  return flat.length <= max ? cell(flat) : cell(flat.slice(0, max)) + 'â€¦';
 }
 
 function ref(e: AgentEvent): string {

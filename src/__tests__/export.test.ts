@@ -35,4 +35,15 @@ describe('Markdown export (case 12)', () => {
     const md2 = buildMarkdown(r2, analyze(r2.events, r2.warnings));
     expect(md2).toContain('a \\| b \\| c');
   });
+
+  it('defangs markdown link syntax so untrusted content cannot become a live link', () => {
+    const r3 = parseText(
+      JSON.stringify({
+        type: 'user',
+        message: { role: 'user', content: '[click me](javascript:alert(1))' },
+      }),
+    );
+    const md3 = buildMarkdown(r3, analyze(r3.events, r3.warnings));
+    expect(md3).not.toContain('](javascript:');
+  });
 });

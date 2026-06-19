@@ -34,27 +34,28 @@ export function Timeline({
       <h2>Timeline</h2>
 
       <div className="filters">
-        <div
-          className="chips"
-          role="group"
-          aria-label="Filter by category"
-        >
-          {chips.map((c) => (
-            <button
-              key={c}
-              type="button"
-              className="chip"
-              aria-pressed={active.has(c)}
-              onClick={() => onToggleCategory(c)}
-            >
-              {categoryLabel(c)}
-            </button>
-          ))}
-          {filtersActive && (
-            <button type="button" className="chip" onClick={onResetFilters}>
-              ✕ Reset
-            </button>
-          )}
+        <div className="filter-row">
+          <span className="filter-caption" id="timeline-filter-caption">
+            Filter:
+          </span>
+          <div className="chips" role="group" aria-labelledby="timeline-filter-caption">
+            {chips.map((c) => (
+              <button
+                key={c}
+                type="button"
+                className="chip"
+                aria-pressed={active.has(c)}
+                onClick={() => onToggleCategory(c)}
+              >
+                {categoryLabel(c)}
+              </button>
+            ))}
+            {filtersActive && (
+              <button type="button" className="chip" onClick={onResetFilters}>
+                <span aria-hidden="true">✕ </span>Reset
+              </button>
+            )}
+          </div>
         </div>
         <div className="search">
           <label className="sr-only" htmlFor="timeline-search">
