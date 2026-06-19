@@ -8,8 +8,8 @@ are real events in this repository, not hypotheticals.
 ## Commands and approaches that failed
 
 1. **`npm install --prefix agenttrace` read the wrong package.json.** The first
-   install ran from `C:\Users\isaac\Downloads` and `--prefix` made npm look for
-   `Downloads\package.json`, which does not exist (ENOENT, exit 38). Fixed by
+   install ran from the parent `Downloads` directory and `--prefix` made npm
+   look for `Downloads\package.json`, which does not exist (ENOENT, exit 38). Fixed by
    `Set-Location` into the project directory before installing.
 
 2. **The production build failed on the Vitest config typing.** `tsc -b`

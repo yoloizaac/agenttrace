@@ -12,6 +12,16 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# environment / secrets
+.env
+.env.*
+!.env.example
+
+# temporary files
+*.tmp
+*.temp
+*~
+
 # editor / OS / local tooling
 .vscode/*
 !.vscode/extensions.json

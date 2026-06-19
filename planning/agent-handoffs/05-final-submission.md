@@ -33,7 +33,7 @@ claims against actual files and command output rather than the README's word.
 | 12 | Agent handoffs exist | `planning/agent-handoffs/01-scope-review.md`, `02-parser-design.md`, `03-testing-security.md`, `04-ux-demo.md` | PASS | 4 handoffs (this review adds a 5th). README says "four" — consistent. |
 | 13 | Agent-log export attempted + documented | `planning/agent-logs/EXPORT-NOTE.md`, `agent-activity-log.md`, `README.md` (agent-logs) | PASS | Honest: explains why the raw `.jsonl` is withheld (embeds private global instructions + email). |
 | 14 | Demo script | `planning/09-demo-script.md` | PASS | — |
-| 15 | No secrets / personal logs committed | `git ls-files` scan: no emails, no API-key patterns, no raw session `.jsonl`; only tracked `.jsonl` is the synthetic `examples/sample-session.jsonl` | PASS (one note) | Sample contains only fake data (`robin`, `/home/robin/taskwidget`, `TaskWidget`, PR #42). One real personal absolute path + session UUID appears in `planning/agent-logs/EXPORT-NOTE.md` line 8 (the path of the withheld log). It is intentional documentation, contains no secret, but does expose the home-dir name "isaac" and a session id — see note below. |
+| 15 | No secrets / personal logs committed | `git ls-files` scan: no emails, no API-key patterns, no raw session `.jsonl`; only tracked `.jsonl` is the synthetic `examples/sample-session.jsonl` | PASS (one note) | Sample contains only fake data (`robin`, `/home/robin/taskwidget`, `TaskWidget`, PR #42). One real personal absolute path + session UUID appears in `planning/agent-logs/EXPORT-NOTE.md` line 8 (the path of the withheld log). It is intentional documentation and contains no secret, but did expose the operator home-directory name and a session id (since redacted, see Resolution). |
 
 ## Inaccuracies / honesty gaps found
 
@@ -78,3 +78,15 @@ Nice-to-have (non-blocking):
 - [ ] Add `*.tsbuildinfo` to `.gitignore` so the two untracked caches stop showing.
 
 — final-submission-reviewer (subagent), 2026-06-19
+
+## Resolution (main agent, 2026-06-19, post-review)
+
+All four items above were addressed before publication:
+- `planning/12-final-audit.md` created; the three dangling links now resolve.
+- README architecture corrected to point at `src/parser/index.ts` (no `decode` file).
+- `EXPORT-NOTE.md` path/UUID redacted to a generic placeholder; the real
+  home-directory path in `planning/07` was also genericised.
+- `*.tsbuildinfo` added to `.gitignore`.
+
+This handoff is left in place as the authentic record of what the review found
+at the time; the checkboxes reflect the pre-fix state.
