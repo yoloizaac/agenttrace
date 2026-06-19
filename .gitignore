@@ -1,0 +1,28 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+dist-ssr/
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# editor / OS / local tooling
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.local
+.claude/
+
+# test / coverage
+coverage/
+
+# never commit real, unsanitised agent logs (only the sanitised export under planning/agent-logs/ is allowed in)
+*.raw.jsonl
+planning/agent-logs/raw/
