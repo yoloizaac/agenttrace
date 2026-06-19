@@ -1,4 +1,4 @@
-# 08 — Assessment changelog
+# 08: Assessment changelog
 
 Date: 2026-06-19
 

@@ -1,4 +1,4 @@
-# 00 — Assessment interpretation
+# 00: Assessment interpretation
 
 Date: 2026-06-19
 

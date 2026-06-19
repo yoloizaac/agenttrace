@@ -1,4 +1,4 @@
-# 04 — Decisions and trade-offs
+# 04: Decisions and trade-offs
 
 Date: 2026-06-19
 

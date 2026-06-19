@@ -4,9 +4,9 @@ This folder is the agent-log evidence for the assessment.
 
 ## What is here
 
-- `EXPORT-NOTE.md` — what was attempted for a raw session export, and why the raw
+- `EXPORT-NOTE.md`: what was attempted for a raw session export, and why the raw
   `.jsonl` is deliberately not committed.
-- `agent-activity-log.md` — a sanitized, human-curated chronological log of what
+- `agent-activity-log.md`: a sanitized, human-curated chronological log of what
   the coding agent actually did on this project (commands, failures, fixes, test
   results, subagent runs). It is curated from the real session, not a raw
   transcript, and is labelled as such.

@@ -1,4 +1,4 @@
-# 02 — Architecture
+# 02: Architecture
 
 Date: 2026-06-19
 
@@ -24,15 +24,15 @@ input (file or paste)
 
 ## Component structure (`src/components/`)
 
-- `App.tsx` — owns the single `ParseResult` state and the active filters; wires everything.
-- `Header` — name, one-line description, local-processing privacy badge.
-- `InputPanel` — file upload, paste textarea, "Load sample", "Clear".
-- `Overview` — six metric tiles derived from analysis.
-- `ToolUsage` — table of tool name / count / ok / fail.
-- `Insights` — retry sequences, verification actions, parse warnings, heuristic disclaimer.
-- `Timeline` — filter bar (category chips + search box) and the list of `EventCard`s.
-- `EventCard` — one event, collapsed title row, expandable detail; error/verification styling.
-- `ExportBar` — "Download Markdown report" button.
+- `App.tsx`: owns the single `ParseResult` state and the active filters; wires everything.
+- `Header`: name, one-line description, local-processing privacy badge.
+- `InputPanel`: file upload, paste textarea, "Load sample", "Clear".
+- `Overview`: six metric tiles derived from analysis.
+- `ToolUsage`: table of tool name / count / ok / fail.
+- `Insights`: retry sequences, verification actions, parse warnings, heuristic disclaimer.
+- `Timeline`: filter bar (category chips + search box) and the list of `EventCard`s.
+- `EventCard`: one event, collapsed title row, expandable detail; error/verification styling.
+- `ExportBar`: "Download Markdown report" button.
 
 UI components are render-only. They receive plain data and callbacks. No fetch, no side effects beyond the file read and the export download.
 
@@ -40,12 +40,12 @@ UI components are render-only. They receive plain data and callbacks. No fetch, 
 
 Separated into single-responsibility stages, each a pure function so each is unit-testable in isolation. Grounded in the parser-design subagent's findings on the real Claude Code log shape.
 
-1. **decode** (`decode.ts`) — takes a `File` or a string, enforces the size cap, returns text + a `source` tag. File reads use the browser `FileReader`/`File.text()`.
-2. **detectFormat** (`detectFormat.ts`) — classifies text as `jsonl`, `json-array`, `json-object`, or `plain-text`. Tolerant: a file that is mostly valid JSON lines is `jsonl` even if one line is junk.
-3. **splitRecords** — turns text into an array of raw records (one per JSONL line, array elements, the single object, or the whole text for plain). Malformed lines become warnings, not throws.
-4. **normalizeRecord** (`normalize.ts`) — probes common keys without assuming a fixed layout and emits zero or more `AgentEvent`s. Assistant records with a `message.content` array fan out into one event per content block. Unknown shapes are preserved as `category: 'unknown'` with `rawType`/`rawData` kept.
-5. **classify** (`classify.ts`) — heuristic pass that upgrades categories (command, file_operation, verification, error, plan) from tool names and content, setting an `inferred` flag where the call is a guess.
-6. **analyze** (`analyze.ts`) — pure reductions over the event array producing `SessionAnalysis` (counts, tool usage, files, failures, retry sequences, verification list, warnings).
+1. **decode** (`decode.ts`): takes a `File` or a string, enforces the size cap, returns text + a `source` tag. File reads use the browser `FileReader`/`File.text()`.
+2. **detectFormat** (`detectFormat.ts`): classifies text as `jsonl`, `json-array`, `json-object`, or `plain-text`. Tolerant: a file that is mostly valid JSON lines is `jsonl` even if one line is junk.
+3. **splitRecords**: turns text into an array of raw records (one per JSONL line, array elements, the single object, or the whole text for plain). Malformed lines become warnings, not throws.
+4. **normalizeRecord** (`normalize.ts`): probes common keys without assuming a fixed layout and emits zero or more `AgentEvent`s. Assistant records with a `message.content` array fan out into one event per content block. Unknown shapes are preserved as `category: 'unknown'` with `rawType`/`rawData` kept.
+5. **classify** (`classify.ts`): heuristic pass that upgrades categories (command, file_operation, verification, error, plan) from tool names and content, setting an `inferred` flag where the call is a guess.
+6. **analyze** (`analyze.ts`): pure reductions over the event array producing `SessionAnalysis` (counts, tool usage, files, failures, retry sequences, verification list, warnings).
 
 `parseSession()` (`index.ts`) composes the stages and returns `ParseResult`. It catches at the boundary so the UI never sees an exception.
 

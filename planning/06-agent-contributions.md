@@ -1,4 +1,4 @@
-# 06 — Agent contributions
+# 06: Agent contributions
 
 Date: 2026-06-19
 

@@ -1,4 +1,4 @@
-# 10 — Retrospective
+# 10: Retrospective
 
 Date: 2026-06-19
 

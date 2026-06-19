@@ -88,10 +88,10 @@ Everything runs with `npm install` then `npm run dev`.
 
 ## Accepted formats
 
-- **JSONL** (one JSON object per line) — the primary Claude Code export shape.
+- **JSONL** (one JSON object per line): the primary Claude Code export shape.
 - **JSON array** of records (pretty-printed or single-line).
 - **Single JSON object** (optionally wrapping an `events` / `messages` array).
-- **Plain text** — kept as a single `unknown` note with a warning.
+- **Plain text**: kept as a single `unknown` note with a warning.
 
 The parser probes for common keys (`type`, `role`, `content`, `message`, `tool`,
 `tool_name`, `tool_use`, `tool_result`, `command`, `path`, `file_path`,
@@ -111,17 +111,18 @@ input ─► parser pipeline (pure, never throws) ─► analyze (pure) ─► R
 
 The parser is split into single-responsibility, individually tested stages:
 
-- `src/parser/decode` (size guard + read) and `detectFormat` (jsonl / json-array
-  / json-object / plain-text).
-- `src/parser/split` — text to raw records; malformed JSONL lines become
+- size guard and file decoding in `src/parser/index.ts` (`parseText` /
+  `parseFile`) and `detectFormat` (jsonl / json-array / json-object /
+  plain-text).
+- `src/parser/split`: text to raw records; malformed JSONL lines become
   warnings, not throws.
-- `src/parser/normalize` — probes keys and fans assistant content blocks out
+- `src/parser/normalize`: probes keys and fans assistant content blocks out
   into events; unknown shapes preserved.
-- `src/parser/classify` — heuristic refinement (command / file_operation / plan /
+- `src/parser/classify`: heuristic refinement (command / file_operation / plan /
   verification), flagging guesses as `inferred`.
-- `src/parser/analyze` — pure reductions: counts, tool usage, files, failures,
+- `src/parser/analyze`: pure reductions: counts, tool usage, files, failures,
   verification, retries.
-- `src/export/markdown` — pure report builder.
+- `src/export/markdown`: pure report builder.
 
 The normalized event model lives in `src/domain/event.ts`. See
 [`planning/02-architecture.md`](planning/02-architecture.md) for the full design.

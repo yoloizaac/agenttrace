@@ -7,7 +7,7 @@ actually did while building AgentTrace. It is drawn from the real Claude Code
 session but is a summary, not a verbatim transcript (see `EXPORT-NOTE.md`). No
 personal data, paths outside the project, or secrets are included.
 
-## Phase 1 — inspect and plan
+## Phase 1: inspect and plan
 
 - Inspected the environment: Node v22.13.1, npm 10.9.2, git 2.49. Confirmed no
   existing `agenttrace` folder.
@@ -18,7 +18,7 @@ personal data, paths outside the project, or secrets are included.
   usually a `tool_result` array. Both wrote handoff notes.
 - Wrote planning docs `00`..`05`.
 
-## Phase 2 — scaffold
+## Phase 2: scaffold
 
 - Hand-wrote the Vite + React + TypeScript scaffold (no interactive
   `create vite`): `package.json`, `tsconfig*`, `vite.config.ts`,
@@ -27,7 +27,7 @@ personal data, paths outside the project, or secrets are included.
   it read `package.json` from the parent directory. **Fix:** `Set-Location` into
   the project, then `npm install` succeeded.
 
-## Phase 3 — parser and tests
+## Phase 3: parser and tests
 
 - Implemented the domain model and the parser stages (`detectFormat`, `split`,
   `normalize`, `classify`, `analyze`, `index`, `util`, `constants`) as pure
@@ -39,7 +39,7 @@ personal data, paths outside the project, or secrets are included.
   cleaned between tests. **Fix:** corrected the bracket; registered
   `afterEach(cleanup)` in the test setup. Result: 43 tests passing.
 
-## Phase 4 — toolchain build fix
+## Phase 4: toolchain build fix
 
 - **Problem:** `npm run build` failed. First the `test` field was not typed on
   vite's `defineConfig`; switching to `vitest/config` then exposed a dual-Vite
@@ -47,7 +47,7 @@ personal data, paths outside the project, or secrets are included.
   Vitest to v3 (supports Vite 6, dedupes to one Vite). Build then green
   (about 176 KB JS, 56 KB gzipped). Lint clean.
 
-## Phase 5 — live verification and review
+## Phase 5: live verification and review
 
 - Started the dev server and drove it via DOM reads. Confirmed 28 event cards,
   correct overview tiles, 7 tool rows, no console errors.
@@ -64,7 +64,7 @@ personal data, paths outside the project, or secrets are included.
   network-egress trap test and deep-nesting tests. Result: 47 tests passing,
   lint clean, build green.
 
-## Phase 6 — documentation
+## Phase 6: documentation
 
 - Wrote the README, `LICENSE`, and planning docs `06`..`11`.
 

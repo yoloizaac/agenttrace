@@ -23,6 +23,9 @@ pnpm-debug.log*
 # test / coverage
 coverage/
 
+# TypeScript incremental build cache
+*.tsbuildinfo
+
 # never commit real, unsanitised agent logs (only the sanitised export under planning/agent-logs/ is allowed in)
 *.raw.jsonl
 planning/agent-logs/raw/

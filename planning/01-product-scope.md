@@ -1,4 +1,4 @@
-# 01 — Product scope
+# 01: Product scope
 
 Date: 2026-06-19
 

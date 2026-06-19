@@ -4,10 +4,11 @@ Date: 2026-06-19
 
 ## What was attempted
 
-The lead agent located the live Claude Code session log for this build at
-`~/.claude/projects/C--Users-isaac-Downloads/fbd3aaf7-317d-4610-910c-36a6a7d4e616.jsonl`
-(about 1.75 MB at the time of writing). Only the file metadata was inspected; the
-raw contents were not opened for committing.
+The lead agent located the live Claude Code session log for this build under the
+local Claude projects directory (`~/.claude/projects/<project-slug>/<session-id>.jsonl`,
+about 1.75 MB at the time of writing). The exact path and session id are omitted
+here on purpose. Only the file metadata was inspected; the raw contents were not
+opened for committing.
 
 ## Why the raw log is not committed
 

@@ -1,4 +1,4 @@
-# 09 — Demo script (3 to 5 minutes)
+# 09: Demo script (3 to 5 minutes)
 
 Date: 2026-06-19
 

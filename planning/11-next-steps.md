@@ -1,4 +1,4 @@
-# 11 — Next steps
+# 11: Next steps
 
 Date: 2026-06-19
 

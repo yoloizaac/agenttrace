@@ -1,4 +1,4 @@
-# 07 — Problems and corrections
+# 07: Problems and corrections
 
 Date: 2026-06-19
 
